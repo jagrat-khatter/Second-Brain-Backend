@@ -7,7 +7,7 @@ const router = Router();
 //z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/);
 
 const userSchema = zod.strictObject({
-    username : zod.string().min(3).lowercase().trim() ,
+    username : zod.string().min(3).trim() ,
     password : zod.string().min(3).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/)
 })
 // if zod does not validate the password properly mongoose validator will throw Error message 
@@ -27,7 +27,8 @@ router.post('/' ,async (req , res)=>{
         if(!response.success){
             throw new Error('Zod validation failed');
         }
-        await User.create(body) ;
+        const newBody = {...body , share : false} ;
+        await User.create(newBody) ;
         return res.status(200).json({message : "User successfully created!"})
     }
     catch(err){

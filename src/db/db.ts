@@ -5,7 +5,8 @@ mongoose.connect(db_string);
 const contentTypes:string[] = ['image' , 'video' , 'article' , 'audio'];
 
 const schema1 = new mongoose.Schema({
-    username: { type: String ,required:true , unique:true , trim:true , minlength:3 , maxlength:30 , lowercase:true } ,
+    username: { type: String ,required:true , unique:true , trim:true , minlength:3 , maxlength:30  } ,
+    share : Boolean,
     password: { type:String , required:true , unique:false , minlength:8 ,
                 validate : {
                     validator :async function (password:string){
