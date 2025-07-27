@@ -9,6 +9,7 @@ import addContentRouter from './routes/addContent'
 import getContentRouter from './routes/getContent'
 import deleteRouter from './routes/delete'
 import shareRouter from './routes/share'
+import sharedContentRouter from './routes/sharedContent'
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,8 +22,9 @@ app.use('/api/v1/signup' , signupRouter) ;
 app.use('/api/v1/signin' , signinRouter) ;
 app.use('/api/v1/addContent' , addContentRouter) ;
 app.use('/api/v1/getContent' , getContentRouter) ;
-app.use('/api/v1/delete' , deleteRouter);
-app.use('/api/v1/share' , shareRouter)
+app.use('/api/v1/delete' , deleteRouter) ;
+app.use('/api/v1/share' , shareRouter) ;
+app.use('/api/v1/brain' , sharedContentRouter) ;
 
 app.listen(PORT , ()=>{
     console.log(`App is listening on port ${PORT}`) ;
