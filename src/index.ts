@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import zod from 'zod'
 import cors from 'cors'
+import signupRouter from './routes/signup'
+import signinRouter from './routes/signin'
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,12 +13,11 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Basic route
-app.get('/', (req, res) => {
-  res.json({ message: 'Brainly API is running!' });
-});
+app.use('/api/v1/signup' , signupRouter) ;
+app.use('/api/v1/signin' , signinRouter) ;
+// app.use('/api/v1/signup' , ) ;
+// app.use('/api/v1/signup' , ) ;
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen(PORT , ()=>{
+    console.log(`App is listening on port ${PORT}`) ;
+})
