@@ -6,7 +6,7 @@ import zod from 'zod'
 const router = Router();
 //z.string().regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/);
 
-const userSchema = zod.object({
+const userSchema = zod.strictObject({
     username : zod.string().min(3).lowercase().trim() ,
     password : zod.string().min(3).regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/)
 })

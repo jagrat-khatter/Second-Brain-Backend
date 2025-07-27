@@ -8,9 +8,7 @@ import {JWT_secrets} from '../config'
 const router = Router();
 
 router.post('/' ,async (req , res)=>{
-    try {
-        console.log(JWT_secrets);
-        
+    try { 
         const body = req.body;
         
         const user = await User.findOne({username : body.username , password : body.password});
