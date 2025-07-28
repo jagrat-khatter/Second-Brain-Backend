@@ -48,7 +48,7 @@ router.get('/:shareLink' , authMiddleware, async (req , res)=>{
 
         return res.status(200).json(finalarray);
 
-    }
+    } 
     catch(err){
         
         if(err instanceof Error){

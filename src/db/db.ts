@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
 import  {db_string} from '../config'
 mongoose.connect(db_string);
+// import { Schema, model } from 'mongoose';
+// u’re importing the Schema constructor and the model function
 
 const contentTypes:string[] = ['image' , 'video' , 'article' , 'audio'];
 
