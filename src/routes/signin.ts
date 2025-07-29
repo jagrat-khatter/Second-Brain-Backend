@@ -5,10 +5,12 @@ import {User} from '../db/db'
 import jwt from 'jsonwebtoken'
 import {JWT_secrets} from '../config'
 
+
 const router = Router();
 
 router.post('/' ,async (req , res)=>{
     try { 
+        
         const body = req.body;
         
         const user = await User.findOne({username : body.username , password : body.password});
