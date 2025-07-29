@@ -4,16 +4,15 @@ const router = Router();
 import authMiddleware from '../middlewares/AuthMiddleware'
 import {Request , Response , NextFunction} from 'express'
 import mongoose from 'mongoose'
-interface a {
-            _id?: mongoose.Schema.Types.ObjectId
-        } 
-interface b {
-            title?: string
-        } 
+// you're absolutely sure that a property exists on an object, you can use the non-null assertion 
+// operator (!) to tell TypeScript to bypass null/undefined checks.
+// else might prefer to create or extend an interface or use type guards.
+
+ 
 router.get('/' , authMiddleware ,async (req:Request , res:Response)=>{
     try {
         const username = req.username ;
-        const user =await  User.findOne({username : username}) as a;
+        const user =await  User.findOne({username : username});
         // Mongoose's populate method lets you automatically replace a referenced ObjectId with the actual 
         // document. For example, if your Content schema has a field like:
         // userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
@@ -25,15 +24,15 @@ router.get('/' , authMiddleware ,async (req:Request , res:Response)=>{
         // in userId key in Content
         // If we dont want the complete object corresponding to userId then we can do ('userId' , 'username')
         // bcoz the complete user object will have password , share status also
-        let array  =await Content.find({userId : user._id}).populate('userId' );
+        let array  =await Content.find({userId : user!._id}).populate('userId' );
         // console.log(array);
         // using an async function in your array.map callback, which returns promises. When you use async 
         // functions, the result is always wrapped in a Promise
         let finalarray =await Promise.all (array.map(async (x)=>{
             let tagArray : string[] = [];
             for(let i=0;i<x.tags.length;i++){
-                const tag =await Tag.findOne({_id : x.tags[i]}) as b;
-                if(tag.title) tagArray.push(tag.title);
+                const tag =await Tag.findOne({_id : x.tags[i]});
+                if(tag!.title) tagArray.push(tag!.title);
             }
             return ({
                 id : x._id ,

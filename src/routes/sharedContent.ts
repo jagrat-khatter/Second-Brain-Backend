@@ -6,12 +6,10 @@ import {JWT_secrets} from '../config'
 import {User , Content,Tag } from '../db/db'
 
 const router = Router();
-interface a {
-    _id?: string
-}
-interface b {
-    title ?: string
-}
+
+// you're absolutely sure that a property exists on an object, you can use the non-null assertion 
+// operator (!) to tell TypeScript to bypass null/undefined checks.
+// else might prefer to create or extend an interface or use type guards.
 interface c {
     username? : string
 }
@@ -21,21 +19,24 @@ router.get('/:shareLink' , authMiddleware, async (req , res)=>{
     {
         const {shareLink} = req.params;
         const response = jwt.verify(shareLink , JWT_secrets) as c;
+        // jwt.verify is typed to return a union (string | JwtPayload), and a plain string doesn't have 
+        // a username property.
+
         // if this has passed means this has original hash created by us
         // since there is no option of deleting the account we can make sure that account always 
         // exist with username
 
         const username = response.username;
 
-        const user =await  User.findOne({username : username}) as a;
-        let array  =await Content.find({userId : user._id});
+        const user =await  User.findOne({username : username});
+        let array  =await Content.find({userId : user!._id});
         // using an async function in your array.map callback, which returns promises. When you use async 
         // functions, the result is always wrapped in a Promise
         let finalarray =await Promise.all (array.map(async (x)=>{
             let tagArray : string[] = [];
             for(let i=0;i<x.tags.length;i++){
-                const tag =await Tag.findOne({_id : x.tags[i]}) as b;
-                if(tag.title) tagArray.push(tag.title);
+                const tag =await Tag.findOne({_id : x.tags[i]});
+                if(tag!.title) tagArray.push(tag!.title);
             }
             return ({
                 id : x._id ,

@@ -6,15 +6,13 @@ import authMiddleware from '../middlewares/AuthMiddleware'
 import {Request , Response} from 'express'
 import jwt from 'jsonwebtoken'
 import {JWT_secrets} from '../config'
-interface a {
-    _id? : string
-}
+
 
 router.post('/' , authMiddleware , async (req:Request , res:Response)=>{
     try{
         const username = req.username;
-        const user = User.findOne({username : username}) as a;
-        const userId = user._id;
+        const user =await User.findOne({username : username});
+        const userId = user!._id;
         if(req.body.share == true){
             let hash ;
             await User.updateOne({username : username} , {share : true});

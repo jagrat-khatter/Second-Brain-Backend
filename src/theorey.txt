@@ -1,0 +1,17 @@
+** You might face problems while accessing the properties which yoo know exist but TS want surity
+ 
+
+
+• Using the Non-Null Assertion Operator (!):
+‒ Use ! when you’re absolutely sure that a value exists (i.e. it is not null or undefined), even if the 
+type system cannot guarantee it.
+‒ It’s a shorthand to tell TypeScript "trust me, this value is defined." For example, after checking 
+that a value is not null, you might write user!._id.
+‒ However, overusing ! can hide potential runtime problems if your assumption turns out to be false.
+
+• Creating or Extending an Interface:
+‒ Create an interface (or extend an existing one) when you want to define an explicit shape for your 
+data. For example, if you expect your Tag documents to always have a property _id (and possibly other 
+properties), define an interface for that data structure (ideally extending Mongoose’s Document type).
+‒ This approach makes your code safer because TypeScript will enforce that the objects you work with 
+match the shape you expect.
