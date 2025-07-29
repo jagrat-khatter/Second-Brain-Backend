@@ -22,6 +22,7 @@ router.post('/' ,async (req , res)=>{
         })
     }
     catch(err){
+        console.log(err);
         if(err instanceof Error){
             if(err.message === 'Invalid Credentials') 
                 return res.status(403).json({message : 'Invalid Credentials'});
