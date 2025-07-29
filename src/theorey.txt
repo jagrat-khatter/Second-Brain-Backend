@@ -15,3 +15,8 @@ data. For example, if you expect your Tag documents to always have a property _i
 properties), define an interface for that data structure (ideally extending Mongoose’s Document type).
 ‒ This approach makes your code safer because TypeScript will enforce that the objects you work with 
 match the shape you expect.
+
+The non-null operator (!) only tells TypeScript that the value isn’t null or undefined; it doesn’t “add” 
+properties to a type.
+
+So when you see squiggles telling that value may be undefined use ! else you have to create interface
