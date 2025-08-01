@@ -10,6 +10,7 @@ import getContentRouter from './routes/getContent'
 import deleteRouter from './routes/delete'
 import shareRouter from './routes/share'
 import sharedContentRouter from './routes/sharedContent'
+import {Request , Response , NextFunction} from 'express'
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,3 +30,14 @@ app.use('/api/v1/brain' , sharedContentRouter) ;
 app.listen(PORT , ()=>{
     console.log(`App is listening on port ${PORT}`) ;
 })
+// special middleware 
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+    if (err instanceof SyntaxError && 'body' in err) {
+        return res.status(400).json({ message: "Invalid JSON" });
+    }
+    console.error(err);
+    return res.status(500).json({ message: "Internal Server Error" });
+});
+
+// If an error is next(err)'d or thrown inside the routeHandler, Express looks ahead for the first 
+// error-handling middleware (i.e., a function with 4 args: err, req, res, next)
