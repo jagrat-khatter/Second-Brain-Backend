@@ -4,29 +4,24 @@ const router = Router();
 import authMiddleware from '../middlewares/AuthMiddleware'
 import {Request , Response , NextFunction} from 'express'
 import mongoose from 'mongoose'
-interface a {
-    userId?: string
-}
-interface b {
-    username?: string
-}
-
 
 
 router.delete('/' ,authMiddleware , async (req:Request , res:Response)=>{
     try{
         const username = req.username ;
         const user = await User.findOne({username : username});
-        const contentId:number = parseInt(req.body.contentId) ;
+        const contentId:string = req.body.contentId ;
+        if (!contentId || !mongoose.Types.ObjectId.isValid(contentId)) {
+            return res.status(400).json({message: "Invalid content ID"});
+}
         // if the frontend calls for content with respect to a user how will they be displayed 
-        let array:any[]=[];
-        if(user) array = await Content.find({userId : user._id});
+        let content=null;
+        if(user) content = await Content.findOne({userId : user._id , _id : contentId});
         
-        if(contentId > array.length){
+        if(!content){
             throw new Error("Trying to delete a doc you don't own");
         }
-        const id = array[contentId-1]._id;
-        await Content.deleteOne({_id : id});
+        await Content.deleteOne({_id : contentId});
         return res.status(200).json({message : "Delete succeeded"});
     }
     catch(err){
